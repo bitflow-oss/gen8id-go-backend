@@ -88,7 +88,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 }
 
 func saveBinaryMessage(reader io.Reader) error {
-	file1, err := os.Create("image.jpg")
+	file1, err := os.Create("OG-image.png")
 	if err != nil {
 		log.Println(err)
 		return nil
@@ -107,8 +107,8 @@ func saveBinaryMessage(reader io.Reader) error {
 		return nil
 	}
 	var fileHash, _ = utils.ExtractFileHash(file1.Name())
-	var file2name = "TS-image.jpg"
-	utils.GenerateThumbnail(file2name, file1.Name(), "512x512")
+	var dstImgPath = "TS-image.jpg"
+	utils.GenerateThumbnailWithWatermark(file1.Name(), dstImgPath)
 
 	fmt.Printf("Binary message saved to image.jpg %s\n", fileHash)
 
@@ -126,6 +126,7 @@ func streamToByte(stream io.Reader) []byte {
 }
 
 func main() {
+	log.Println("starting gorilla websocket server")
 	flag.Parse()
 	log.SetFlags(0)
 	http.HandleFunc("/ws", upload)
