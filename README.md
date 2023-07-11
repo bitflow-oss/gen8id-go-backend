@@ -10,4 +10,4 @@
   
 3. AI - Generative fill, context awareness, etc.
   - cloudinary
-  - github.com/cloudinary/cloudinary-go/v2
+  - https://github.com/cloudinary/cloudinary-go
