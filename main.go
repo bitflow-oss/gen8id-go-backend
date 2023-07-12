@@ -10,9 +10,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/gorilla/websocket"
-
 	"gen8id-websocket/utils"
+	"github.com/gorilla/websocket"
 )
 
 /*
@@ -42,6 +41,10 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
+/**
+ * convert to webp then upload file to cloud object storage
+ * "github.com/chai2010/webp"
+ */
 func upload(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -65,13 +68,16 @@ func upload(w http.ResponseWriter, r *http.Request) {
 
 		if messageType == websocket.BinaryMessage {
 			start := time.Now()
-			err = saveBinaryMessage(reader)
+			imgUrl, err := saveBinaryMessage(reader)
 			if err != nil {
 				log.Println(err)
+				return
 			}
 			elapsed := time.Since(start)
 			secs := elapsed.Seconds()
 			fmt.Printf("Frame rate = %f\n", 256.0/secs)
+			// return : image file URL, width x height, file type : png, jpg, webp, 사이즈 적합여부
+			err = conn.WriteMessage(websocket.TextMessage, []byte(imgUrl))
 
 		} else if messageType == websocket.TextMessage {
 			// echo message
@@ -87,11 +93,12 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func saveBinaryMessage(reader io.Reader) error {
-	file1, err := os.Create("OG-image.png")
+func saveBinaryMessage(reader io.Reader) (string, error) {
+
+	file1, err := os.Create(utils.INIT_FILE_NAME)
 	if err != nil {
 		log.Println(err)
-		return nil
+		return "", err
 	}
 	defer func(file *os.File) {
 		err := file.Close()
@@ -104,15 +111,14 @@ func saveBinaryMessage(reader io.Reader) error {
 	_, err = io.Copy(file1, reader)
 	if err != nil {
 		log.Println(err)
-		return nil
+		return "", err
 	}
 	var fileHash, _ = utils.ExtractFileHash(file1.Name())
-	var dstImgPath = "TS-image.jpg"
-	utils.GenerateThumbnailWithWatermark(file1.Name(), dstImgPath)
+	var imgUrl = utils.GenerateThumbnailWithWatermark(utils.INIT_FILE_NAME, fileHash)
 
-	fmt.Printf("Binary message saved to image.jpg %s\n", fileHash)
+	fmt.Printf("image saved to %s, uploaded to %s\n", fileHash, imgUrl)
 
-	return nil
+	return imgUrl, nil
 }
 
 func streamToByte(stream io.Reader) []byte {
