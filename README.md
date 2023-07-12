@@ -9,5 +9,7 @@
    - https://github.com/disintegration/imaging
   
 3. AI - Generative fill, context awareness, etc.
-  - cloudinary
-  - https://github.com/cloudinary/cloudinary-go
+
+    3.1. cloudinary
+   
+    3.2. https://github.com/cloudinary/cloudinary-go
