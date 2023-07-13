@@ -135,7 +135,7 @@ func main() {
 	log.Println("starting gorilla websocket server")
 	flag.Parse()
 	log.SetFlags(0)
-	http.HandleFunc("/", upload)
+	http.HandleFunc("/ws", upload)
 	log.Fatal(http.ListenAndServe(*addr, nil))
 	// todo: startup ASCII art needed
 }
