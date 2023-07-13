@@ -29,9 +29,10 @@ jobs:
       with:
           server: '${{ secrets.FTP_HOST_GEN8ID_WEB }}'
           port: 22
-          username: ${{ secrets.FTP_USER_GEN8ID_WEB }}             
-          password: ${{ secrets.FTP_PW_GEN8ID_WEB }}                    
-          local_path: './dist/*'
+          username: ${{ secrets.FTP_USER_GEN8ID_WEB }}
+          password: ${{ secrets.FTP_PW_GEN8ID_WEB }}
+          local_path: '.'
           remote_path: '/home/bitflow/www/go.backend'
+          exclude: '.git*,.idea*'   
           sftp_only: true          
           sftpArgs: '-o ConnectTimeout=5'
