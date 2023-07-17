@@ -36,3 +36,13 @@ jobs:
           exclude: '.git*,.idea*,.github*'   
           sftp_only: true          
           sftpArgs: '-o ConnectTimeout=5'
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.FTP_HOST_GEN8ID_WEB }}
+        username: ${{ secrets.FTP_USER_GEN8ID_WEB }}
+        password: ${{ secrets.FTP_PW_GEN8ID_WEB }}
+        port: 22
+        script: |
+          cd /home/bitflow/www/go.backend
+          ./reload-go.sh
