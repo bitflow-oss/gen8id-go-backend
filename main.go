@@ -30,7 +30,7 @@ PingMessage = 9
 PongMessage = 10
 */
 
-var addr = flag.String("addr", "0.0.0.0:8081", "http service address")
+var addr = flag.String("addr", ":8081", "http service address")
 
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
