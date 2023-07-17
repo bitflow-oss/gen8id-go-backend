@@ -46,6 +46,7 @@ var upgrader = websocket.Upgrader{
  * "github.com/chai2010/webp"
  */
 func upload(w http.ResponseWriter, r *http.Request) {
+	log.Println("upload called")
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -133,9 +134,11 @@ func streamToByte(stream io.Reader) []byte {
 
 func main() {
 	log.Println("starting gorilla websocket server")
-	flag.Parse()
-	log.SetFlags(0)
 	http.HandleFunc("/ws", upload)
-	log.Fatal(http.ListenAndServe(*addr, nil))
+	// ListenAndServeTLS
+	err := http.ListenAndServe(*addr, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// todo: startup ASCII art needed
 }
