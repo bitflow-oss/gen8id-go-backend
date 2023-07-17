@@ -1,2 +1,2 @@
 fuser -n tcp -k 8081
-go main.go
+./run-go.sh
