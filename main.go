@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"gen8id-websocket/src/consts"
+	utils "gen8id-websocket/src/utils"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
-	"gen8id-websocket/utils"
 	"github.com/gorilla/websocket"
 )
 
@@ -96,29 +97,43 @@ func upload(w http.ResponseWriter, r *http.Request) {
 
 func saveBinaryMessage(reader io.Reader) (string, error) {
 
-	file1, err := os.Create(utils.INIT_FILE_NAME)
+	var orgFilePath = fmt.Sprintf(consts.ORG_IMG_PATH, time.Now().UnixMilli())
+
+	file1, err := os.Create(orgFilePath) // gloval_consts.ORG_IMG_PATH)
 	if err != nil {
 		log.Println(err)
 		return "", err
 	}
-	defer func(file *os.File) {
-		err := file.Close()
-		if err != nil {
-			log.Println(err)
-			return
-		}
-	}(file1)
-
+	/*
+		defer func(file *os.File) {
+			err := file.Close()
+			if err != nil {
+				log.Println(err)
+				return
+			}
+		}(file1)
+	*/
 	_, err = io.Copy(file1, reader)
 	if err != nil {
 		log.Println(err)
 		return "", err
 	}
+	err = file1.Close()
+	if err != nil {
+		log.Println(err)
+		return "", err
+	}
+
 	var fileHash, _ = utils.ExtractFileHash(file1.Name())
-	var imgUrl = utils.GenerateThumbnailWithWatermark(utils.INIT_FILE_NAME, fileHash)
+	var hashFilePath = fmt.Sprintf(consts.HASH_IMG_PATH, fileHash)
+	err = os.Rename(orgFilePath, hashFilePath)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	fmt.Printf("image saved to %s, uploaded to %s\n", fileHash, imgUrl)
-
+	var imgUrl = utils.ObjectPrivateUpload(hashFilePath)
+	// var imgUrl = utils.GenerateThumbnailWithWatermark(gloval_consts.ORG_IMG_PATH, fileHash)
+	// fmt.Printf("image saved to %s, uploaded to %s\n", fileHash, imgUrl)
 	return imgUrl, nil
 }
 

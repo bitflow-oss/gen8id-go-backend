@@ -3,6 +3,7 @@ package utils
 import (
 	"bytes"
 	"fmt"
+	gloval_consts "gen8id-websocket/src/consts"
 	"github.com/chai2010/webp"
 	"github.com/disintegration/imaging"
 	"image"
@@ -17,11 +18,6 @@ import (
 	"strings"
 )
 
-const watermarkImgPath = "resources/watermark-pattern-gen8id.png"
-const INIT_FILE_NAME = "ORG-image.png"
-const ORG_IMG_PATH = "ORG-%s.webp"
-const DST_IMG_PATH = "TNS-%s.webp"
-
 type SubImager interface {
 	SubImage(r image.Rectangle) image.Image
 }
@@ -35,7 +31,7 @@ func GenerateThumbnailWithWatermark(srcImgPath, fileHash string) string {
 	// imgUrl := UploadCloudinary(srcImgPath, fileHash)
 
 	resizedSrcImg := resizeImageKeepingAspectRatio(srcImgPath, "512x512")
-	markImage := readImage(watermarkImgPath) // step 2 ==> read mark image
+	markImage := readImage(gloval_consts.WATERMARK_THUMB_PATH) // step 2 ==> read mark image
 
 	// step 3 ==> calculate position in center
 	baseBound := resizedSrcImg.Bounds()
@@ -49,13 +45,6 @@ func GenerateThumbnailWithWatermark(srcImgPath, fileHash string) string {
 	draw.Draw(outputImage, outputImage.Bounds(), resizedSrcImg, image.ZP, draw.Src)
 	draw.DrawMask(outputImage, markImage.Bounds().Add(offset), markImage, image.ZP,
 		image.NewUniform(color.Alpha{128}), image.ZP, draw.Over)
-
-	// err := writeImage(outputImage, DST_IMG_PATH) // step 5 ==> write output to file image
-	// if err != nil {
-	// 	log.Println(err)
-	// }
-
-	// updateExifMeta(DST_IMG_PATH)
 
 	return encodeWebp(outputImage, fileHash)
 }
@@ -115,18 +104,17 @@ func writeImage(image image.Image, dstFileName string) (err error) {
 
 func encodeWebp(m image.Image, fileHash string) string {
 
-	log.Println(encodeWebp)
 	var buf bytes.Buffer
 
 	// Encode lossless webp
 	if err := webp.Encode(&buf, m, &webp.Options{Lossless: true}); err != nil {
 		log.Println(err)
 	}
-	var thmImgFileName = fmt.Sprintf(DST_IMG_PATH, fileHash)
+	var thmImgFileName = fmt.Sprintf(gloval_consts.DST_IMG_PATH, fileHash)
 	if err := ioutil.WriteFile(thmImgFileName, buf.Bytes(), 0666); err != nil {
 		log.Println(err)
 	}
-	return objectUpload(thmImgFileName)
+	return ObjectPrivateUpload(thmImgFileName)
 }
 
 /**
