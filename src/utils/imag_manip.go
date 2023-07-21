@@ -110,11 +110,12 @@ func encodeWebp(m image.Image, fileHash string) string {
 	if err := webp.Encode(&buf, m, &webp.Options{Lossless: true}); err != nil {
 		log.Println(err)
 	}
-	var thmImgFileName = fmt.Sprintf(gloval_consts.DST_IMG_PATH, fileHash)
+	var thmImgFileName = fmt.Sprintf(gloval_consts.DST_IMG_FILENAME, fileHash)
 	if err := ioutil.WriteFile(thmImgFileName, buf.Bytes(), 0666); err != nil {
 		log.Println(err)
 	}
-	return ObjectPrivateUpload(thmImgFileName)
+	// return ObjectPrivateUpload(thmImgFileName)
+	return ""
 }
 
 /**

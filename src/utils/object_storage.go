@@ -2,7 +2,6 @@ package utils
 
 import (
 	"context"
-	"fmt"
 	gloval_consts "gen8id-websocket/src/consts"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -12,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"log"
 	"os"
+	"path/filepath"
 	"sync"
 )
 
@@ -38,7 +38,7 @@ func (r *CustomReader) ReadAt(p []byte, off int64) (int, error) {
 	if _, ok := r.signMap[off]; ok {
 		// Got the length have read( or means has uploaded), and you can construct your message
 		r.read += int64(n)
-		fmt.Printf("\rtotal read:%d    progress:%d%%", r.read, int(float32(r.read*100)/float32(r.size)))
+		log.Printf("\rtotal read:%d    progress:%d%%", r.read, int(float32(r.read*100)/float32(r.size)))
 	} else {
 		r.signMap[off] = struct{}{}
 	}
@@ -55,7 +55,7 @@ func (r *CustomReader) Seek(offset int64, whence int) (int64, error) {
 // const regionName = "kr-standard"
 // const accessKey = "LR9hW8gPyStOvacROGl3"
 // const secretKey = "JZE1FXZObcu2tazxgEmQzx043XK8ZmSfv8JR1vlg"
-func ObjectPrivateUpload(filename string) string {
+func ObjectPrivateUpload(localFilepath, filename string) string {
 
 	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 		return aws.Endpoint{
@@ -74,8 +74,7 @@ func ObjectPrivateUpload(filename string) string {
 	}
 
 	client := s3.NewFromConfig(cfg)
-
-	uploadFile, err := os.Open(filename)
+	uploadFile, err := os.Open(filepath.Join(localFilepath, filename))
 	if err != nil {
 		log.Fatalf("failed to open file %v, %v", filename, err)
 	}
@@ -97,7 +96,7 @@ func ObjectPrivateUpload(filename string) string {
 		return ""
 	}
 
-	fmt.Println()
+	log.Println()
 	log.Println(result.Location)
 	return result.Location
 
@@ -145,7 +144,7 @@ func objectPublicUpload(filename string) string {
 		return ""
 	}
 
-	fmt.Println()
+	log.Println()
 	log.Println(result.Location)
 	return result.Location
 

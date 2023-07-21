@@ -1,9 +1,10 @@
 package consts
 
 const WATERMARK_THUMB_PATH = "resources/watermark-512x512.png"
-const ORG_IMG_PATH = "./temp_upload/ORG-%d.png"
-const HASH_IMG_PATH = "./temp_upload/ORG-%s.png"
-const DST_IMG_PATH = "TNS-%s.webp"
+const UPLOAD_REL_PATH = "temp_upload"
+const ORG_IMG_FILENAME = "ORG-%d.png"
+const HASH_IMG_FILENAME = "ORG-%s.png"
+const DST_IMG_FILENAME = "TNS-%s.webp"
 
 const OBJ_STRG_ENDPNT = "https://kr.object.ncloudstorage.com"
 const OBJ_STRG_REGION = "kr-standard"

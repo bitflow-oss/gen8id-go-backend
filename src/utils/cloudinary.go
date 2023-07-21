@@ -3,12 +3,61 @@ package utils
 // Import the required packages for upload and admin.
 import (
 	"context"
-	"fmt"
 	"github.com/cloudinary/cloudinary-go/v2"
 	"github.com/cloudinary/cloudinary-go/v2/api/admin"
 	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"log"
 )
+
+func UpscaleTest() {
+
+	var imgPid = "KakaoTalk_20230720_011520221_yaa1f9"
+	cld, _ := cloudinary.NewFromParams("dbqltwqac", "696441825692637", "YRXvf_DaiwJ7tGpLcAaXxyRgXxo")
+
+	// Instantiate an object for the image with public ID "maroon_hat" in folder "docs/sdk/go"
+	i, err := cld.Image(imgPid)
+	if err != nil {
+		log.Println("error")
+	}
+
+	// Add the transformation
+	i.Transformation = "e_upscale"
+
+	// Generate and print the delivery URL
+	myURL, err := i.String()
+	log.Println(myURL)
+	if err != nil {
+		log.Println("error")
+	}
+	log.Printf("myURL %+v", myURL)
+}
+
+/*
+func UpscaleOld(srcImgPath, fileHash string) string {
+
+	var ctx = context.Background()
+	var imgPid = "330128490_1237077613553240_8044530979175526843_n_1_nljaks"
+
+	cld, _ := cloudinary.NewFromParams("dbqltwqac", "696441825692637", "YRXvf_DaiwJ7tGpLcAaXxyRgXxo")
+
+	// Get details about the image with PublicID "my_image" and log the secure URL.
+	resp2, err := cld.Admin.Asset(ctx, admin.AssetParams{PublicID: imgPid})
+	if err != nil {
+		log.Println("error1", resp2)
+	}
+
+	cld.Admin.UpdateTransformation(ctx, admin.UpdateTransformationParams{})
+
+	// Instantiate an object for the asset with public ID "my_image"
+	updImg, err := cld.Image(imgPid)
+	if err != nil {
+		log.Println("error2", err)
+	}
+	//updImg.Transformation()
+	return ""
+
+}
+*/
 
 func UploadCloudinary(srcImgPath, fileHash string) string {
 
@@ -27,18 +76,18 @@ func UploadCloudinary(srcImgPath, fileHash string) string {
 	if err != nil {
 		log.Fatalf("Failed to upload file, %v\n", err)
 	}
-	fmt.Printf("resp1 %+v", resp1)
+	log.Printf("resp1 %+v", resp1)
 
 	// Get details about the image with PublicID "my_image" and log the secure URL.
 	resp2, err := cld.Admin.Asset(ctx, admin.AssetParams{PublicID: imgPid})
 	if err != nil {
-		fmt.Println("error1", resp2)
+		log.Println("error1", resp2)
 	}
 
 	// Instantiate an object for the asset with public ID "my_image"
 	updImg, err := cld.Image(imgPid)
 	if err != nil {
-		fmt.Println("error2", err)
+		log.Println("error2", err)
 	}
 
 	// reference: https://cloudinary.com/documentation/go_integration
@@ -50,7 +99,7 @@ func UploadCloudinary(srcImgPath, fileHash string) string {
 	// Generate and print the delivery URL
 	myURL, err := updImg.String()
 	if err != nil {
-		fmt.Println("error3", err)
+		log.Println("error3", err)
 	}
 	return myURL
 
