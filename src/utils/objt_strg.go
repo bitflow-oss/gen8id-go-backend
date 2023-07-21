@@ -2,7 +2,7 @@ package utils
 
 import (
 	"context"
-	gloval_consts "gen8id-websocket/src/consts"
+	gloval_consts "gen8id-websocket/src/cnst"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"

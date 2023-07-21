@@ -1,4 +1,4 @@
-package utils
+package extn
 
 // Import the required packages for upload and admin.
 import (

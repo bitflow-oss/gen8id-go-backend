@@ -3,7 +3,7 @@ package utils
 import (
 	"bytes"
 	"fmt"
-	gloval_consts "gen8id-websocket/src/consts"
+	gloval_consts "gen8id-websocket/src/cnst"
 	"github.com/chai2010/webp"
 	"github.com/disintegration/imaging"
 	"image"

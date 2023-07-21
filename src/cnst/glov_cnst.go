@@ -1,4 +1,4 @@
-package consts
+package cnst
 
 const WATERMARK_THUMB_PATH = "resources/watermark-512x512.png"
 const UPLOAD_REL_PATH = "temp_upload"

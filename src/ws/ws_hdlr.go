@@ -3,7 +3,7 @@ package ws
 import (
 	"bytes"
 	"fmt"
-	"gen8id-websocket/src/consts"
+	"gen8id-websocket/src/cnst"
 	"gen8id-websocket/src/utils"
 	"github.com/gorilla/websocket"
 	"io"
@@ -91,8 +91,8 @@ func StreamUpload(w http.ResponseWriter, r *http.Request) {
 
 func saveBinaryMessage(reader io.Reader) (string, error) {
 
-	var orgFilePath = filepath.Join(consts.UPLOAD_REL_PATH,
-		fmt.Sprintf(consts.ORG_IMG_FILENAME, time.Now().UnixMilli()))
+	var orgFilePath = filepath.Join(cnst.UPLOAD_REL_PATH,
+		fmt.Sprintf(cnst.ORG_IMG_FILENAME, time.Now().UnixMilli()))
 
 	initFile, err := os.Create(orgFilePath)
 	if err != nil {
@@ -112,14 +112,14 @@ func saveBinaryMessage(reader io.Reader) (string, error) {
 	}
 
 	var fileHash, _ = utils.ExtractFileHash(initFile.Name())
-	var hashedFilename = fmt.Sprintf(consts.HASH_IMG_FILENAME, fileHash)
-	var hashedFilePath = filepath.Join(consts.UPLOAD_REL_PATH, hashedFilename)
+	var hashedFilename = fmt.Sprintf(cnst.HASH_IMG_FILENAME, fileHash)
+	var hashedFilePath = filepath.Join(cnst.UPLOAD_REL_PATH, hashedFilename)
 	err = os.Rename(orgFilePath, hashedFilePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var imgUrl = utils.ObjectPrivateUpload(consts.UPLOAD_REL_PATH, hashedFilename)
+	var imgUrl = utils.ObjectPrivateUpload(cnst.UPLOAD_REL_PATH, hashedFilename)
 	// imgUrl = utils.GenerateThumbnailWithWatermark(gloval_consts.ORG_IMG_FILENAME, fileHash)
 	// log.Printf("image saved to %s, uploaded to %s\n", fileHash, imgUrl)
 	return imgUrl, nil

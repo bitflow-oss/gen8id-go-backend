@@ -1,4 +1,4 @@
-package rest
+package html
 
 import (
 	"gen8id-websocket/src/utils"
