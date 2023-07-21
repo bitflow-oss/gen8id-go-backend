@@ -1,7 +1,7 @@
 package html
 
 import (
-	"gen8id-websocket/src/utils"
+	"gen8id-websocket/src/util"
 	"github.com/kataras/blocks"
 	"log"
 	"net/http"
@@ -16,20 +16,20 @@ func BaseHtmlWithMetaTag(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	data := map[string]interface{}{
-		"OgUrl":         utils.GetConfig().OgUrl,
-		"OgSiteName":    utils.GetConfig().OgSiteName,
-		"OgType":        utils.GetConfig().OgType,
-		"OgTitle":       utils.GetConfig().OgTitle,
-		"OgDescription": utils.GetConfig().OgDescription,
-		"OgImage":       utils.GetConfig().OgImage,
-		"OgImageType":   utils.GetConfig().OgImageType,
-		"OgImageWidth":  utils.GetConfig().OgImageWidth,
-		"OgImageHeight": utils.GetConfig().OgImageHeight,
-		"OgLocale":      utils.GetConfig().OgLocale,
+		"OgUrl":         util.GetConfig().OgUrl,
+		"OgSiteName":    util.GetConfig().OgSiteName,
+		"OgType":        util.GetConfig().OgType,
+		"OgTitle":       util.GetConfig().OgTitle,
+		"OgDescription": util.GetConfig().OgDescription,
+		"OgImage":       util.GetConfig().OgImage,
+		"OgImageType":   util.GetConfig().OgImageType,
+		"OgImageWidth":  util.GetConfig().OgImageWidth,
+		"OgImageHeight": util.GetConfig().OgImageHeight,
+		"OgLocale":      util.GetConfig().OgLocale,
 
-		"Keywords":  utils.GetConfig().Keywords,
-		"Author":    utils.GetConfig().Author,
-		"Copyright": utils.GetConfig().Copyright,
+		"Keywords":  util.GetConfig().Keywords,
+		"Author":    util.GetConfig().Author,
+		"Copyright": util.GetConfig().Copyright,
 	}
 
 	err := Views.ExecuteTemplate(w, "index", "", data)

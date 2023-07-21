@@ -1,6 +1,7 @@
-package utils
+package util
 
 import (
+	"github.com/joho/godotenv"
 	"gopkg.in/yaml.v3"
 	"log"
 	"os"
@@ -9,8 +10,7 @@ import (
 )
 
 type Config struct {
-	ServerPort  string `yaml:"server_port"`
-	HtmlRootDir string `yaml:"html_root_dir"`
+	ServerPort string `yaml:"server_port"`
 
 	OgUrl         string `yaml:"og_url"`
 	OgSiteName    string `yaml:"og_site_name"`
@@ -57,4 +57,16 @@ func LoadConfig(filename string) Config {
 	}
 	AppConfig = lAppConfig
 	return lAppConfig
+}
+
+func GetHtmlTemplateDir(env string) string {
+	var filename = ".env"
+	if len(env) > 0 {
+		filename = "." + env + ".env"
+	}
+	err := godotenv.Load(filename)
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	return os.Getenv("HTML_TMPLT_DIR")
 }

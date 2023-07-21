@@ -13,6 +13,7 @@ require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.5.0
+	github.com/joho/godotenv v1.5.1
 	github.com/kataras/blocks v0.0.7
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 )

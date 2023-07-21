@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"gen8id-websocket/src/cnst"
-	"gen8id-websocket/src/utils"
+	"gen8id-websocket/src/util"
 	"github.com/gorilla/websocket"
 	"io"
 	"log"
@@ -111,7 +111,7 @@ func saveBinaryMessage(reader io.Reader) (string, error) {
 		return "", err
 	}
 
-	var fileHash, _ = utils.ExtractFileHash(initFile.Name())
+	var fileHash, _ = util.ExtractFileHash(initFile.Name())
 	var hashedFilename = fmt.Sprintf(cnst.HASH_IMG_FILENAME, fileHash)
 	var hashedFilePath = filepath.Join(cnst.UPLOAD_REL_PATH, hashedFilename)
 	err = os.Rename(orgFilePath, hashedFilePath)
@@ -119,7 +119,7 @@ func saveBinaryMessage(reader io.Reader) (string, error) {
 		log.Fatal(err)
 	}
 
-	var imgUrl = utils.ObjectPrivateUpload(cnst.UPLOAD_REL_PATH, hashedFilename)
+	var imgUrl = util.ObjectPrivateUpload(cnst.UPLOAD_REL_PATH, hashedFilename)
 	// imgUrl = utils.GenerateThumbnailWithWatermark(gloval_consts.ORG_IMG_FILENAME, fileHash)
 	// log.Printf("image saved to %s, uploaded to %s\n", fileHash, imgUrl)
 	return imgUrl, nil
