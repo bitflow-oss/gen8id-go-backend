@@ -3,8 +3,8 @@ server_port: ":8081"
 og_url: https://www.gen8.id
 og_site_name: Generated / gen8.id
 og_type: website
-og_title: Landing page
-og_description: Generated | The way to make Money using generative AI.
+og_title: Generated # Landing page
+og_description: The way to make Money using generative AI.
 og_image: https://a.gen8.id/img/samples/niji-8.png
 og_image_type: image/png
 og_image_width: 1200
