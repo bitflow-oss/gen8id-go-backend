@@ -7,7 +7,6 @@ import (
 	"net/http"
 )
 
-var conf = utils.GetConfig()
 var Views *blocks.Blocks
 
 func BaseHtmlWithMetaTag(w http.ResponseWriter, r *http.Request) {
@@ -17,20 +16,20 @@ func BaseHtmlWithMetaTag(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	data := map[string]interface{}{
-		"og:url":          conf.OgUrl,
-		"og:site_name":    conf.OgSiteName,
-		"og:type":         conf.OgType,
-		"og:title":        conf.OgTitle,
-		"og:description":  conf.OgDescription,
-		"og:image":        conf.OgImage,
-		"og:image:type":   conf.OgImageType,
-		"og:image:width":  conf.OgImageWidth,
-		"og:image:height": conf.OgImageHeight,
-		"og:locale":       conf.OgLocale,
+		"OgUrl":         utils.GetConfig().OgUrl,
+		"OgSiteName":    utils.GetConfig().OgSiteName,
+		"OgType":        utils.GetConfig().OgType,
+		"OgTitle":       utils.GetConfig().OgTitle,
+		"OgDescription": utils.GetConfig().OgDescription,
+		"OgImage":       utils.GetConfig().OgImage,
+		"OgImageType":   utils.GetConfig().OgImageType,
+		"OgImageWidth":  utils.GetConfig().OgImageWidth,
+		"OgImageHeight": utils.GetConfig().OgImageHeight,
+		"OgLocale":      utils.GetConfig().OgLocale,
 
-		"keywords":  conf.Keywords,
-		"author":    conf.Author,
-		"copyright": conf.Copyright,
+		"Keywords":  utils.GetConfig().Keywords,
+		"Author":    utils.GetConfig().Author,
+		"Copyright": utils.GetConfig().Copyright,
 	}
 
 	err := Views.ExecuteTemplate(w, "index", "", data)
