@@ -19,5 +19,9 @@
 
 # Go workspace file
 go.work
+*.exe
 
+tmp_upld/
+dist/
 .idea/
+.github/

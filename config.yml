@@ -18,8 +18,8 @@ author: Bitflow
 copyright: Bitflow, Inc.
 
 
-# WATERMARK_THUMB_PATH: resources/watermark-512x512.png
-# UPLOAD_REL_PATH: temp_upload
+# WATERMARK_THUMB_PATH: res/wm-512x512.png
+# UPLOAD_REL_PATH: tmp_upld
 # ORG_IMG_FILENAME: ORG-%d.png
 # HASH_IMG_FILENAME: ORG-%s.png
 # DST_IMG_FILENAME: TNS-%s.webp
@@ -28,3 +28,7 @@ copyright: Bitflow, Inc.
 # OBJ_STRG_ACC_KEY: LR9hW8gPyStOvacROGl3
 # OBJ_STRG_SCRT_KEY: JZE1FXZObcu2tazxgEmQzx043XK8ZmSfv8JR1vlg
 # OBJ_STRG_BUCKT: alpha.gen8.id
+
+# region: kr-standard
+# aws_access_key_id: LR9hW8gPyStOvacROGl3
+# aws_secret_access_key: JZE1FXZObcu2tazxgEmQzx043XK8ZmSfv8JR1vlg

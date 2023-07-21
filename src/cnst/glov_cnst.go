@@ -1,7 +1,7 @@
 package cnst
 
 const WATERMARK_THUMB_PATH = "resources/watermark-512x512.png"
-const UPLOAD_REL_PATH = "temp_upload"
+const UPLOAD_REL_PATH = "tmp_upld"
 const ORG_IMG_FILENAME = "ORG-%d.png"
 const HASH_IMG_FILENAME = "ORG-%s.png"
 const DST_IMG_FILENAME = "TNS-%s.webp"
