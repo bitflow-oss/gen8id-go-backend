@@ -11,7 +11,7 @@ var Views *blocks.Blocks
 
 func BaseHtmlWithMetaTag(w http.ResponseWriter, r *http.Request) {
 
-	log.Println("[html] meta gen page called")
+	log.Println("[html]", r.URL.Path)
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 

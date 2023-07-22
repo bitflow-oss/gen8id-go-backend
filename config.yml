@@ -32,8 +32,8 @@ ObjStrgFoldPrvt: prvt/
 
 # Image filename settings
 WtmkThmbPath: res/wm-512x512.png
-UpldRltvPath: tmp-upld
-OrgImgFileNm: tmp%d.%s
-HashImgFileNm: 0rg%d.%s
+UpldRltvPath: ./tmp_upld # /user/{userid}
+OrgImgFileNm: tmp%d.png
+HashImgFileNm: org%s.png
 DstImgFileNm: fin%d.webp
 

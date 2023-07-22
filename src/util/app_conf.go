@@ -62,7 +62,7 @@ func LoadConfig(filename string) Config {
 		panic(err)
 	}
 	var absFilePath = path.Join(absdir, filename)
-	log.Println("loading config", absFilePath)
+	log.Println("[init] config at", absFilePath, "is loading")
 
 	bytes, err := os.ReadFile(absFilePath)
 	if err != nil {

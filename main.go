@@ -16,7 +16,7 @@ func main() {
 	env := flag.String("env", "", "")
 	flag.Parse()
 
-	log.Println("starting", *env, "gorilla websocket/mux server")
+	log.Println("[init]", *env, "gorilla websocket/mux server is starting")
 	// todo: startup ASCII art needed
 
 	var conf = util.LoadConfig("config.yml")

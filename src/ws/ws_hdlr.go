@@ -40,7 +40,7 @@ var upgrader = websocket.Upgrader{
 
 // StreamUpload github.com/chai2010/webp
 func StreamUpload(w http.ResponseWriter, r *http.Request) {
-	log.Println("upload called")
+	log.Println("[ws] temp upload")
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -95,9 +95,10 @@ func saveBinaryMessage(reader io.Reader) (string, error) {
 	var orgFilePath = filepath.Join(conf.UpldRltvPath,
 		fmt.Sprintf(conf.OrgImgFileNm, time.Now().UnixMilli()))
 
+	log.Println("[ws] wring stream to", orgFilePath)
 	initFile, err := os.Create(orgFilePath)
 	if err != nil {
-		log.Println(err)
+		log.Println("[ws][err] creating file", err)
 		return "", err
 	}
 
@@ -113,6 +114,7 @@ func saveBinaryMessage(reader io.Reader) (string, error) {
 	}
 
 	var fileHash, _ = util.ExtractFileHash(initFile.Name())
+	log.Println("[ws] fileHash", fileHash)
 	var hashedFilename = fmt.Sprintf(conf.HashImgFileNm, fileHash)
 	var hashedFilePath = filepath.Join(conf.UpldRltvPath, hashedFilename)
 	err = os.Rename(orgFilePath, hashedFilePath)

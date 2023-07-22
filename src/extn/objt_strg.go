@@ -98,7 +98,6 @@ func ObjectPrivateUpload(localFilepath, filename string) string {
 		return ""
 	}
 
-	log.Println()
 	log.Println(result.Location)
 	return result.Location
 
