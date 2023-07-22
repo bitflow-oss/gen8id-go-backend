@@ -1,9 +1,7 @@
 package ws
 
 import (
-	"bytes"
 	"fmt"
-	"gen8id-websocket/src/cnst"
 	"gen8id-websocket/src/extn"
 	"gen8id-websocket/src/util"
 	"github.com/gorilla/websocket"
@@ -78,7 +76,7 @@ func StreamUpload(w http.ResponseWriter, r *http.Request) {
 
 		} else if messageType == websocket.TextMessage {
 			// echo message
-			var strMsg = streamToByte(reader)
+			var strMsg = util.StreamToByte(reader)
 			log.Println("got msg:", string(strMsg))
 			err = conn.WriteMessage(messageType, strMsg)
 			if err != nil {
@@ -92,8 +90,10 @@ func StreamUpload(w http.ResponseWriter, r *http.Request) {
 
 func saveBinaryMessage(reader io.Reader) (string, error) {
 
-	var orgFilePath = filepath.Join(cnst.UPLOAD_REL_PATH,
-		fmt.Sprintf(cnst.ORG_IMG_FILENAME, time.Now().UnixMilli()))
+	var conf = util.GetConfig()
+
+	var orgFilePath = filepath.Join(conf.UpldRltvPath,
+		fmt.Sprintf(conf.OrgImgFileNm, time.Now().UnixMilli()))
 
 	initFile, err := os.Create(orgFilePath)
 	if err != nil {
@@ -113,25 +113,13 @@ func saveBinaryMessage(reader io.Reader) (string, error) {
 	}
 
 	var fileHash, _ = util.ExtractFileHash(initFile.Name())
-	var hashedFilename = fmt.Sprintf(cnst.HASH_IMG_FILENAME, fileHash)
-	var hashedFilePath = filepath.Join(cnst.UPLOAD_REL_PATH, hashedFilename)
+	var hashedFilename = fmt.Sprintf(conf.HashImgFileNm, fileHash)
+	var hashedFilePath = filepath.Join(conf.UpldRltvPath, hashedFilename)
 	err = os.Rename(orgFilePath, hashedFilePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var imgUrl = extn.ObjectPrivateUpload(cnst.UPLOAD_REL_PATH, hashedFilename)
-	// imgUrl = utils.GenerateThumbnailWithWatermark(gloval_consts.ORG_IMG_FILENAME, fileHash)
-	// log.Printf("image saved to %s, uploaded to %s\n", fileHash, imgUrl)
+	var imgUrl = extn.ObjectPrivateUpload(conf.UpldRltvPath, hashedFilename)
 	return imgUrl, nil
-}
-
-func streamToByte(stream io.Reader) []byte {
-	buf := new(bytes.Buffer)
-	_, err := buf.ReadFrom(stream)
-	if err != nil {
-		log.Println(err)
-		return nil
-	}
-	return buf.Bytes()
 }

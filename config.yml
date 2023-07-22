@@ -29,3 +29,11 @@ ObjStrgScrtKey: iCOk3RzVEgUDJgt6oHY6S0QwvmX8Qh8qCTNstoDl
 ObjStrgBcktName: dev-gen8id
 ObjStrgFoldPblc: pblc/
 ObjStrgFoldPrvt: prvt/
+
+# Image filename settings
+WtmkThmbPath: res/wm-512x512.png
+UpldRltvPath: tmp-upld
+OrgImgFileNm: tmp%d.%s
+HashImgFileNm: 0rg%d.%s
+DstImgFileNm: fin%d.webp
+

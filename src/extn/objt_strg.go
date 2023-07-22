@@ -2,7 +2,6 @@ package extn
 
 import (
 	"context"
-	gloval_consts "gen8id-websocket/src/cnst"
 	"gen8id-websocket/src/util"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -51,7 +50,11 @@ func (r *CustomReader) Seek(offset int64, whence int) (int64, error) {
 	return r.fp.Seek(offset, whence)
 }
 
-// s3.us-central-1.wasabisys.com/dev-gen8id/pblc/asian_women_is_gazing_at_a_smartphone_smiling_behind_big_te_8c7bbf18-8c9d-4423-a7b7-5ac5841a24e4.png
+// ObjectPrivateUpload
+/**
+ * permissioned file upload
+ * e.g. s3.us-central-1.wasabisys.com/dev-gen8id/prvt/a.png
+ */
 func ObjectPrivateUpload(localFilepath, filename string) string {
 
 	var conf = util.GetConfig()
@@ -101,12 +104,19 @@ func ObjectPrivateUpload(localFilepath, filename string) string {
 
 }
 
-func objectPublicUpload(filename string) string {
+// ObjectPublicUpload
+/**
+ * public permission file upload
+ * e.g. s3.us-central-1.wasabisys.com/dev-gen8id/pblc/a.png
+ */
+func ObjectPublicUpload(filename string) string {
+
+	var conf = util.GetConfig()
 
 	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 		return aws.Endpoint{
 			PartitionID:   "aws",
-			URL:           gloval_consts.OBJ_STRG_ENDPNT,
+			URL:           conf.ObjStrgEndpnt,
 			SigningRegion: region,
 		}, nil
 	})
@@ -114,7 +124,7 @@ func objectPublicUpload(filename string) string {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithEndpointResolverWithOptions(customResolver),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
-			gloval_consts.OBJ_STRG_ACC_KEY, gloval_consts.OBJ_STRG_SCRT_KEY, "")))
+			conf.ObjStrgAccKey, conf.ObjStrgScrtKey, "")))
 	if err != nil {
 		// handle error
 	}
@@ -132,9 +142,9 @@ func objectPublicUpload(filename string) string {
 	})
 
 	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{
-		Bucket:      aws.String(gloval_consts.OBJ_STRG_BUCKT),
+		Bucket:      aws.String(conf.ObjStrgBcktName),
 		ACL:         types.ObjectCannedACLPublicRead, //  aws.String("public-read"),
-		Key:         aws.String("pblc/" + filename),
+		Key:         aws.String(conf.ObjStrgFoldPblc + filename),
 		Body:        uploadFile,
 		ContentType: aws.String("image/webp"),
 	})

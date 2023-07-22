@@ -37,6 +37,12 @@ type Config struct {
 	ObjStrgBcktName string `yaml:"ObjStrgBcktName"`
 	ObjStrgFoldPblc string `yaml:"ObjStrgFoldPblc"`
 	ObjStrgFoldPrvt string `yaml:"ObjStrgFoldPrvt"`
+
+	WtmkThmbPath  string `yaml:"WtmkThmbPath"`
+	UpldRltvPath  string `yaml:"UpldRltvPath"`
+	OrgImgFileNm  string `yaml:"OrgImgFileNm"`
+	HashImgFileNm string `yaml:"HashImgFileNm"`
+	DstImgFileNm  string `yaml:"DstImgFileNm"`
 }
 
 var AppConfig Config
