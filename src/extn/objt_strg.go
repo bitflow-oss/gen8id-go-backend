@@ -1,8 +1,9 @@
-package util
+package extn
 
 import (
 	"context"
 	gloval_consts "gen8id-websocket/src/cnst"
+	"gen8id-websocket/src/util"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -50,17 +51,15 @@ func (r *CustomReader) Seek(offset int64, whence int) (int64, error) {
 	return r.fp.Seek(offset, whence)
 }
 
-// AWS_REGION=<region> go run -tags example putObjWithProcess.go <bucket> <key for object> <local file name>
-// const endPoint = "https://kr.object.ncloudstorage.com"
-// const regionName = "kr-standard"
-// const accessKey = "LR9hW8gPyStOvacROGl3"
-// const secretKey = "JZE1FXZObcu2tazxgEmQzx043XK8ZmSfv8JR1vlg"
+// s3.us-central-1.wasabisys.com/dev-gen8id/pblc/asian_women_is_gazing_at_a_smartphone_smiling_behind_big_te_8c7bbf18-8c9d-4423-a7b7-5ac5841a24e4.png
 func ObjectPrivateUpload(localFilepath, filename string) string {
+
+	var conf = util.GetConfig()
 
 	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 		return aws.Endpoint{
 			PartitionID:   "aws",
-			URL:           gloval_consts.OBJ_STRG_ENDPNT,
+			URL:           conf.ObjStrgEndpnt,
 			SigningRegion: region,
 		}, nil
 	})
@@ -68,7 +67,7 @@ func ObjectPrivateUpload(localFilepath, filename string) string {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithEndpointResolverWithOptions(customResolver),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
-			gloval_consts.OBJ_STRG_ACC_KEY, gloval_consts.OBJ_STRG_SCRT_KEY, "")))
+			conf.ObjStrgAccKey, conf.ObjStrgScrtKey, "")))
 	if err != nil {
 		// handle error
 	}
@@ -85,9 +84,9 @@ func ObjectPrivateUpload(localFilepath, filename string) string {
 	})
 
 	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{
-		Bucket:      aws.String(gloval_consts.OBJ_STRG_BUCKT),
+		Bucket:      aws.String(conf.ObjStrgBcktName),
 		ACL:         types.ObjectCannedACLPublicRead, // ObjectCannedACLPrivate, ObjectCannedACLAuthenticatedRead
-		Key:         aws.String("prvt/" + filename),
+		Key:         aws.String(conf.ObjStrgFoldPrvt + filename),
 		Body:        uploadFile,
 		ContentType: aws.String("image/webp"),
 	})

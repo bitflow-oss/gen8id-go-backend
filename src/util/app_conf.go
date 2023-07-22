@@ -10,23 +10,33 @@ import (
 )
 
 type Config struct {
-	ServerPort string `yaml:"server_port"`
+	ServerPort string `yaml:"ServerPort"`
 
-	OgUrl         string `yaml:"og_url"`
-	OgSiteName    string `yaml:"og_site_name"`
-	OgType        string `yaml:"og_type"`
-	OgTitle       string `yaml:"og_title"`
-	OgDescription string `yaml:"og_description"`
-	OgImage       string `yaml:"og_image"`
-	OgImageType   string `yaml:"og_image_type"`
-	OgImageWidth  string `yaml:"og_image_width"`
-	OgImageHeight string `yaml:"og_image_height"`
-	OgLocale      string `yaml:"og_locale"`
+	OgUrl         string `yaml:"OgUrl"`
+	OgSiteName    string `yaml:"OgSiteName"`
+	OgType        string `yaml:"OgType"`
+	OgTitle       string `yaml:"OgTitle"`
+	OgDescription string `yaml:"OgDescription"`
+	OgImage       string `yaml:"OgImage"`
+	OgImageType   string `yaml:"OgImageType"`
+	OgImageWidth  string `yaml:"OgImageWidth"`
+	OgImageHeight string `yaml:"OgImageHeight"`
+	OgLocale      string `yaml:"OgLocale"`
 
-	Title     string `yaml:"title"`
-	Keywords  string `yaml:"keywords"`
-	Author    string `yaml:"author"`
-	Copyright string `yaml:"copyright"`
+	TwitterCard string `yaml:"TwitterCard"`
+
+	Title     string `yaml:"Title"`
+	Keywords  string `yaml:"Keywords"`
+	Author    string `yaml:"Author"`
+	Copyright string `yaml:"Copyright"`
+
+	ObjStrgEndpnt   string `yaml:"ObjStrgEndpnt"`
+	ObjStrgRegion   string `yaml:"ObjStrgRegion"`
+	ObjStrgAccKey   string `yaml:"ObjStrgAccKey"`
+	ObjStrgScrtKey  string `yaml:"ObjStrgScrtKey"`
+	ObjStrgBcktName string `yaml:"ObjStrgBcktName"`
+	ObjStrgFoldPblc string `yaml:"ObjStrgFoldPblc"`
+	ObjStrgFoldPrvt string `yaml:"ObjStrgFoldPrvt"`
 }
 
 var AppConfig Config
@@ -45,8 +55,10 @@ func LoadConfig(filename string) Config {
 	if err != nil {
 		panic(err)
 	}
-	// confFilepath, _ := filepath.Abs(filepath)
-	bytes, err := os.ReadFile(path.Join(absdir, filename))
+	var absFilePath = path.Join(absdir, filename)
+	log.Println("loading config", absFilePath)
+
+	bytes, err := os.ReadFile(absFilePath)
 	if err != nil {
 		log.Println(err.Error())
 	}

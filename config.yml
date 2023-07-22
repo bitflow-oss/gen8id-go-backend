@@ -1,33 +1,31 @@
-server_port: ":8081"
+# This server setting
+ServerPort: ":8081"
 
-og_url: https://www.gen8.id # actual url?
-og_site_name: Generated | WWW.GEN8.ID
-og_type: website # product, product item, product group
-og_title: [Generated] AI artists' playground # Landing page
-og_description: The way to make money using generative AI.
-og_image: https://a.gen8.id/img/samples/niji-8.png
-og_image_type: image/png
-og_image_width: 1200
-og_image_height: 630
-og_locale: en_US
+# Opengraph metadata settings
+OgUrl: "https://www.gen8.id"
+OgSiteName: "Generated | WWW.GEN8.ID"
+OgType: "website"
+OgTitle: "[Generated] AI artists playground"
+OgDescription: "The way to make money using generative AI."
+OgImage: "https://a.gen8.id/img/samples/niji-8.png"
+OgImageType: "image/png"
+OgImageWidth: "1200"
+OgImageHeight: "630"
+OgLocale: "en_US"
 
-title: [Generated] AI artist's playground
-keywords: ai, generative, art, artwork, media, image, artist, midjourney, nijijourney, stable diffusion, chatgpt, robot, transformer, attention
-author: Bitflow
-copyright: Bitflow, Inc.
+TwitterCard: "summary_large_image"
+
+Title: "[Generated] AI artist's playground"
+Keywords: "ai, generative, art, artwork, media, image, artist, midjourney, nijijourney, stable diffusion, chatgpt, robot, transformer, attention"
+Author: "Bitflow"
+Copyright: "Bitflow, Inc."
 
 
-# WATERMARK_THUMB_PATH: res/wm-512x512.png
-# UPLOAD_REL_PATH: tmp_upld
-# ORG_IMG_FILENAME: ORG-%d.png
-# HASH_IMG_FILENAME: ORG-%s.png
-# DST_IMG_FILENAME: TNS-%s.webp
-# OBJ_STRG_ENDPNT: https://kr.object.ncloudstorage.com
-# OBJ_STRG_REGION: kr-standard
-# OBJ_STRG_ACC_KEY: LR9hW8gPyStOvacROGl3
-# OBJ_STRG_SCRT_KEY: JZE1FXZObcu2tazxgEmQzx043XK8ZmSfv8JR1vlg
-# OBJ_STRG_BUCKT: alpha.gen8.id
-
-# region: kr-standard
-# aws_access_key_id: LR9hW8gPyStOvacROGl3
-# aws_secret_access_key: JZE1FXZObcu2tazxgEmQzx043XK8ZmSfv8JR1vlg
+# Wasabi object storage settings
+ObjStrgEndpnt: https://s3.us-central-1.wasabisys.com
+ObjStrgRegion:
+ObjStrgAccKey: JFRFUXFA91SE58E65EHT
+ObjStrgScrtKey: iCOk3RzVEgUDJgt6oHY6S0QwvmX8Qh8qCTNstoDl
+ObjStrgBcktName: dev-gen8id
+ObjStrgFoldPblc: pblc/
+ObjStrgFoldPrvt: prvt/

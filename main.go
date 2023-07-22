@@ -17,6 +17,7 @@ func main() {
 	flag.Parse()
 
 	log.Println("starting", *env, "gorilla websocket/mux server")
+	// todo: startup ASCII art needed
 
 	var conf = util.LoadConfig("config.yml")
 	html.Views = blocks.New(util.GetHtmlTemplateDir(*env)).Reload(true)
@@ -25,13 +26,13 @@ func main() {
 		panic(err)
 	}
 	router := mux.NewRouter()
-	router.HandleFunc("/ws", ws.StreamUpload)
+	router.PathPrefix("/ws").HandlerFunc(ws.StreamUpload)
 	router.PathPrefix("/img").HandlerFunc(html.BaseHtmlWithMetaTag)
 	err = http.ListenAndServe(conf.ServerPort, router)
 	if err != nil {
 		log.Fatal(err)
 	}
-	// todo: startup ASCII art needed
+	// log.Println("gorilla websocket/mux server started")
 }
 
 /*
