@@ -24,8 +24,8 @@ Copyright: "Bitflow, Inc."
 # Wasabi object storage settings
 ObjStrgEndpnt: https://s3.us-central-1.wasabisys.com
 ObjStrgRegion:
-ObjStrgAccKey: JFRFUXFA91SE58E65EHT
-ObjStrgScrtKey: iCOk3RzVEgUDJgt6oHY6S0QwvmX8Qh8qCTNstoDl
+ObjStrgAccKey: JFRFUXFA91SE5
+ObjStrgScrtKey: iCOk3RzVEgUDJgt6oHY6S0
 ObjStrgBcktName: dev-gen8id
 ObjStrgFoldPblc: pblc/
 ObjStrgFoldPrvt: prvt/
